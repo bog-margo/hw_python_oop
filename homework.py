@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, Type
 
 
 @dataclass
@@ -55,11 +55,11 @@ class Training:
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        info_message: str = InfoMessage(self.__class__.__name__,
-                                        self.duration,
-                                        self.get_distance(),
-                                        self.get_mean_speed(),
-                                        self.get_spent_calories())
+        info_message: float = InfoMessage(self.__class__.__name__,
+                                          self.duration,
+                                          self.get_distance(),
+                                          self.get_mean_speed(),
+                                          self.get_spent_calories())
         return info_message
 
 
@@ -148,7 +148,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    type_dict: Dict[str, Training] = (
+    type_dict: Dict[str, Type[Training]] = (
         {'SWM': Swimming, 'RUN': Running, 'WLK': SportsWalking})
     if workout_type not in type_dict:
         raise ValueError('Неизвестный тип тренировки')
